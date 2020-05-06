@@ -1,11 +1,20 @@
+#include <Adafruit_Sensor.h>
+
 // Demo for getting individual unified sensor data from the 2 LPS2X series
 // first version display/ plot differences 
-// second display 1024 samples for external processing
+// second version display 1024 samples for external processing
+// third version specify samples and rate
+// fourth version use long integeers instead of floats.  Note that Adafruit_sensor.h
+    // defines pressure and temperature as floats anyhow.  Scaling for floats for reference is 
+    // pressure->pressure = (unscaled_pressure / 4096.0);
+    // temp->temperature = (unscaled_temp / 480) + 42.5;
 
-#include <Adafruit_LPS2X.h>
+
+
+#include <Adafruit_LPS2X_int.h>
 #include "Streaming.h" // C++ style output
 
-Adafruit_LPS2X lps, lps2;
+Adafruit_LPS2X_int lps, lps2;
 Adafruit_Sensor *lps_temp, *lps_pressure, *lps2_temp, *lps2_pressure;
 
 int nSamples, nMsec;
@@ -72,7 +81,7 @@ void loop() {
     lps_pressure->getEvent(&pressure);
     lps2_temp->getEvent(&temp2);
     lps2_pressure->getEvent(&pressure2);
-    Serial << i << "\t" << pressure.pressure << "\t" << pressure2.pressure << "\t" << temp.temperature << "\t" << temp2.temperature << endl;
+    Serial << i << "\t" << (long)pressure.pressure << "\t" << (long)pressure2.pressure << "\t" << (long)temp.temperature << "\t" << (long)temp2.temperature << endl;
     while( millis() < t + nMsec) {} // wait until nMsec from start of loop
   }
   while(1) { // flash LED for long runs
