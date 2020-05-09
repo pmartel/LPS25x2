@@ -29,6 +29,7 @@ void setup(void) {
     delay(10); // will pause Zero, Leonardo, etc until serial console opens
   }
 
+  Serial << "version 1 skip 3" << endl;
   Serial << "Dual Adafruit LPS2X data samples.  Save for external processing.\n";
   // default address is 0x5D
   if (!lps.begin_I2C()) {
@@ -56,7 +57,10 @@ void setup(void) {
   lps2_pressure = lps2.getPressureSensor();
 
 
-  Serial.println("Both LPS2X Found!");
+  Serial << "Both LPS2X Found!" << endl;
+  Serial << endl;  // fixed an issue while allowing separation
+  Serial << "samples " << nSamples << endl;
+  Serial << "time " << nMsec <<"e-3" << endl;
 #ifdef DEBUG
   lps_temp->printSensorDetails();
   lps_pressure->printSensorDetails();
@@ -72,8 +76,8 @@ void loop() {
   long  t; // delay() does not take into account the time in the loop
   int i;
 
-  Serial << endl;
-  Serial << nSamples << " Samples at " << nMsec << " msec" << endl;
+  //Serial << endl;
+  //Serial << nSamples << " Samples at " << nMsec << " msec" << endl;
   Serial << "n\tP1\tP2\tT1\tT2" << endl;
   for( i = 0; i < nSamples; i++ ) {
     t = millis();
