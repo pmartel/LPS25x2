@@ -17,7 +17,8 @@
 Adafruit_LPS2X_int lps, lps2;
 Adafruit_Sensor *lps_temp, *lps_pressure, *lps2_temp, *lps2_pressure;
 
-int nSamples, nMsec;
+long nSamples;
+int nMsec;
 String inStr;
 
 void setup(void) {
@@ -60,7 +61,7 @@ void setup(void) {
   Serial << "Both LPS2X Found!" << endl;
   Serial << endl;  // fixed an issue while allowing separation
   Serial << "samples " << nSamples << endl;
-  Serial << "time " << nMsec <<"e-3" << endl;
+  Serial << "sampletime " << nMsec <<"e-3" << endl;
 #ifdef DEBUG
   lps_temp->printSensorDetails();
   lps_pressure->printSensorDetails();
@@ -74,7 +75,7 @@ void loop() {
   sensors_event_t pressure, pressure2;
   sensors_event_t temp, temp2;
   long  t; // delay() does not take into account the time in the loop
-  int i;
+  long i;
 
   //Serial << endl;
   //Serial << nSamples << " Samples at " << nMsec << " msec" << endl;
